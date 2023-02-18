@@ -1,40 +1,21 @@
 ---
 # Front matter
-title: "Отчёт по лабораторной работе №1"
-subtitle: "Работа с git"
-author: "Саинт-Амур Измаэль НПИбд-02-20"
-university: Российский Университет Дружбы Народов
-place: Москва, 2023
-
-
-## Generic otions
 lang: ru-RU
+title: "Отчет по лабораторной работе №2"
+subtitle: "Задача о погоне - вариант 14"
+author: "Саинт-Амур Измаэль	Нпибд-02-20"
+
+# Formatting
 toc-title: "Содержание"
-
-## Bibliography
-bibliography: bib/cite.bib
-csl: pandoc/csl/gost-r-7-0-5-2008-numeric.csl
-
-## Pdf output format
 toc: true # Table of contents
-toc-depth: 2
+toc_depth: 2
 lof: true # List of figures
 fontsize: 12pt
 linestretch: 1.5
-papersize: a4
+papersize: a4paper
 documentclass: scrreprt
-## I18n polyglossia
-polyglossia-lang:
-  name: russian
-  options:
-	- spelling=modern
-	- babelshorthands=true
-polyglossia-otherlangs:
-  name: english
-## I18n babel
-babel-lang: russian
-babel-otherlangs: english
-## Fonts
+polyglossia-lang: russian
+polyglossia-otherlangs: english
 mainfont: PT Serif
 romanfont: PT Serif
 sansfont: PT Sans
@@ -42,71 +23,224 @@ monofont: PT Mono
 mainfontoptions: Ligatures=TeX
 romanfontoptions: Ligatures=TeX
 sansfontoptions: Ligatures=TeX,Scale=MatchLowercase
-monofontoptions: Scale=MatchLowercase,Scale=0.9
-## Biblatex
-biblatex: true
-biblio-style: "gost-numeric"
-biblatexoptions:
-  - parentracker=true
-  - backend=biber
-  - hyperref=auto
-  - language=auto
-  - autolang=other*
-  - citestyle=gost-numeric
-## Pandoc-crossref LaTeX customization
-figureTitle: "Рис."
-tableTitle: "Таблица"
-listingTitle: "Листинг"
-lofTitle: "Список иллюстраций"
-lotTitle: "Список таблиц"
-lolTitle: "Листинги"
-## Misc options
+monofontoptions: Scale=MatchLowercase
 indent: true
+pdf-engine: lualatex
 header-includes:
-  - \usepackage{indentfirst}
+  - \linepenalty=10 # the penalty added to the badness of each line within a paragraph (no associated penalty node) Increasing the υalue makes tex try to haυe fewer lines in the paragraph.
+  - \interlinepenalty=0 # υalue of the penalty (node) added after each line of a paragraph.
+  - \hyphenpenalty=50 # the penalty for line breaking at an automatically inserted hyphen
+  - \exhyphenpenalty=50 # the penalty for line breaking at an explicit hyphen
+  - \binoppenalty=700 # the penalty for breaking a line at a binary operator
+  - \relpenalty=500 # the penalty for breaking a line at a relation
+  - \clubpenalty=150 # extra penalty for breaking after first line of a paragraph
+  - \widowpenalty=150 # extra penalty for breaking before last line of a paragraph
+  - \displaywidowpenalty=50 # extra penalty for breaking before last line before a display math
+  - \brokenpenalty=100 # extra penalty for page breaking after a hyphenated line
+  - \predisplaypenalty=10000 # penalty for breaking before a display
+  - \postdisplaypenalty=0 # penalty for breaking after a display
+  - \floatingpenalty = 20000 # penalty for splitting an insertion (can only be split footnote in standard LaTeX)
+  - \raggedbottom # or \flushbottom
   - \usepackage{float} # keep figures where there are in the text
   - \floatplacement{figure}{H} # keep figures where there are in the text
 ---
 
 # Цель работы
 
-Целью данной работы является изучение идеологии и применения средств Работа с git.
+Приведем один из примеров построения математических моделей для выбора правильной стратегии при решении задач поиска. 
+Например, рассмотрим задачу преследования браконьеров береговой охраной. На море в тумане катер береговой охраны преследует лодку браконьеров. Через определенный промежуток времени туман рассеивается, и лодка обнаруживается на расстоянии k км от катера. Затем лодка снова скрывается в тумане и уходит прямолинейно в неизвестном направлении. Известно, что скорость катера в n раза больше скорости браконьерской лодки. 
+Необходимо определить по какой траектории необходимо двигаться катеру, чтоб нагнать лодку.
 
+
+# Задание
+
+1. Провести необходимые рассуждения и вывод дифференциальных уравнений, если скорость катера больше скорости лодки в n раз.
+2. Построить траекторию движения катера и лодки для двух случаев. 
+3. Определить по графику точку пересечения катера и лодки.
 
 # Выполнение лабораторной работы
 
-1. Войти на [github](https://github.com)
-(рис1.)
+Принимаем за $t_0=0, X_0=0$  - место нахождения лодки браконьеров в момент обнаружения, $X_0=k$   - место нахождения катера береговой охраны относительно лодки браконьеров в момент обнаружения лодки.
 
-![Создание репозитория](image/2.jpg){ #fig:001 width=70% height=70% }
+Введем полярные координаты. Считаем, что полюс - это точка обнаружения лодки браконьеров $x_0=0 (\theta=x_0=0)$, а полярная ось r проходит через точку нахождения катера береговой охраны.
 
-2. Создаем учетную запись на github.com и репозиторий на основе шаблона преподавателя.(рис2.)
+Чтобы найти расстояние $x$ (расстояние после которого катер начнет двигаться вокруг полюса), необходимо составить простое уравнение. Пусть через время $t$ катер и лодка окажутся на одном расстоянии $x$ от полюса. За это время лодка пройдет $x$, а катер $x-k$ (или $x+k$, в зависимости от начального положения катера относительно полюса). Время, за которое они пройдут это расстояние, вычисляется как $\frac{x}{υ}$ или $\frac{x+k}{υ}$ (для второго случая $\frac{x-k}{υ}$).  Так как время одно и то же, то эти величины одинаковы. Тогда неизвестное расстояние можно найти из следующего уравнения:  $\frac{x}{υ} = \frac{x+k}{υ}$ - в первом случае, $\frac{x}{υ} =  \frac{x-k}{υ}$ во втором случае.
 
-![Создание репозитория](image/1.jpg){ #fig:001 width=70% height=70% }
+Отсюда мы найдем два значения $x_1$ и $x_2$, задачу будем решать для двух случаев. 
 
-3. Задаем конфигурацию пользователя и генерируем SSH-ключ(рис3.)
+$x_1=\frac{k}{n+1}$ ,при $\theta=0$
 
-![Глобальные параметры](image/3.jpg){ #fig:002 width=70% height=70% }
-(рис4.)
-![SSH-ключ](image/4.jpg){ #fig:003 width=70% height=70% }
-(рис5.)
-![Импорт ключа](image/5.jpg){ #fig:004 width=70% height=70% }
-(рис6.)
-![Импорт ключа](image/6.jpg){ #fig:004 width=70% height=70% }
+$x_2=\frac{k}{n-1}$ ,при $\theta=-\pi$
 
-4. Скопировали репозиторий в папку.(рис7.)
+После того, как катер береговой охраны окажется на одном расстоянии от полюса, что и лодка, он должен сменить прямолинейную траекторию и начать двигаться вокруг полюса удаляясь от него со скоростью лодки $υ$. Для этого скорость катера раскладываем на две составляющие: $υ_r$ - радиальная скорость и $υ_t$- тангенциальная скорость. Радиальная скорость - это скорость, с которой катер удаляется от полюса $υ_r=\frac{dr}{dt}$. Нам нужно, чтобы эта скорость была равна скорости лодки, поэтому полагаем $υ=\frac{dr}{dt}$.
+Тангенциальная скорость – это линейная скорость вращения катера относительно полюса. Она равна произведению угловой скорости $\frac{d\theta}{dt}$  на радиус $r$, $υr=r\frac{d\theta}{dt}$
+Найдем тангенциальную скорость для нашей задачи $υ_t=r\frac{d\theta}{dt}$.
+Вектора образуют прямоугольный треугольник, откуда по теореме Пифагора можно найти тангенциальную скорость $υ_t= \sqrt{n^2 υ_r^2-v^2}$. Поскольку, радиальная скорость равна $υ$, то тангенциальную скорость находим из уравнения $υ_t= \sqrt{n^2 υ^2-υ^2 }$. Следовательно, $υ_τ=υ\sqrt{n^2-1}$.
 
-![git clone](image/10.jpg){ #fig:005 width=70% height=70% }
+Тогда получаем $r\frac{d\theta}{dt}=υ\sqrt{n^2-1}$
 
-5. Оформили курс по данному шаблону и загрузили в репозиторий.(рис.8)
+Решение исходной задачи сводится к решению системы из двух дифференциальных уравнений 
 
-![git push](image/7.jpg){ #fig:006 width=70% height=70% }
+$$
+ \begin{cases}
+   \frac{dr}{dt}=υ
+	\\   
+	r\frac{d\theta}{dt}=υ\sqrt{n^2-1}
+ \end{cases}
+$$
 
-![репозиторий](image/8.jpg){ #fig:007 width=70% height=70% }
+с начальными условиями
 
-(image/9.jpg){ #fig:007 width=70% height=70% }
+$$
+ \begin{cases}
+   \theta_0=0
+   \\
+	r_0=\frac{k}{n+1}
+ \end{cases}
+\
+$$
 
-# Вывод
+$$
+ \begin{cases}
+   \theta_0=-\pi
+   \\
+	r_0=\frac{k}{n-1}
+ \end{cases}
+\
+$$
 
-Мы приобрели практические навыки работы с системой контроля версий git и создали свой репозиторий
+Исключая из полученной системы производную по t, можно перейти к следующему уравнению: $\frac{dr}{d\theta}=\frac{r}{\sqrt{n^2-1}}$
 
+Начальные условия остаются прежними. Решив это уравнение, мы получим
+траекторию движения катера в полярных координатах. 
+Теперь, когда нам известно все, что нам нужно, построим траекторию движения катера и лодки для двух случаев. 
+
+## Условие задачи
+
+На море в тумане катер береговой охраны преследует лодку браконьеров.
+Через определенный промежуток времени туман рассеивается, и лодка обнаруживается на расстоянии 7.5 км от катера. 
+Затем лодка снова скрывается в тумане и уходит прямолинейно в неизвестном направлении. 
+Известно, что скорость катера в 3.1 раза больше скорости браконьерской лодки
+
+## Код программы (Julia)
+
+```
+n=3.1
+s=7.5
+fi=3*pi/4
+
+using Plots
+using DifferentialEquations
+
+function f(r, p, t)
+    dr = r/sqrt(n^2-1)
+    return dr
+end
+
+function f2(t)
+    xt = tan(fi+pi)*t
+    return xt
+end
+
+r0 = s/(n+1)
+tetha0 = collect(LinRange(0, 2*pi, 200))
+prob = ODEProblem(f, r0, (0, 2*pi))
+sol = solve(prob, saveat = tetha0)
+
+t = collect(LinRange(0, 10, 200))
+r1=[]
+tetha1=[]
+for i in t
+    push!(r1, sqrt(i^2 + f2(i)^2))
+    push!(tetha1, atan(f2(i)/i))
+end
+           
+plot(tetha1, r1, proj=:polar, label="лодка")
+plot!(sol, proj=:polar, label="катер")
+
+r0 = s/(n-1)
+tetha0 = collect(LinRange(0, 2*pi, 200))
+prob = ODEProblem(f, r0, (0, 2*pi))
+sol = solve(prob, saveat = tetha0)
+
+t = collect(LinRange(0, 20, 200))
+r1=[]
+tetha1=[]
+for i in t
+    push!(r1, sqrt(i^2 + f2(i)^2))
+    push!(tetha1, atan(f2(i)/i))
+end
+           
+plot(tetha1, r1, proj=:polar, label="лодка")
+plot!(sol, proj=:polar, label="катер")
+```
+
+
+## Код программы (Scilab)
+
+```
+n=3.1
+s=7.5
+fi=3*%pi/4
+
+function dr=f(tetha, r)
+    dr=r/sqrt(n*n-1)
+endfunction
+
+function xt=f2(t)
+    xt = tan(fi+%pi)*t
+endfunction
+
+r0=s/(n+1)
+tetha0=0
+tetha=0:0.1:2*%pi
+t=0:1:20
+
+r=ode(r0, tetha0, tetha, f)
+polarplot(tetha, r, style=color('green'))
+plot2d(t, f2(t), style=color('red'))
+
+figure()
+r0=s/(n-1)
+r=ode(r0, tetha0, tetha, f)
+polarplot(tetha, r, style=color('green'))
+plot2d(t, f2(t), style=color('red'))
+
+```
+
+## Решение
+
+![траектории для случая 1 (Scilab)](image/01.png){ #fig:001 width=70% height=70% }
+
+![траектории для случая 1 (Julia)](image/1.png){ #fig:002 width=70% height=70% }
+
+Точка пересечения графиков - точка пересечения катера и лодки, исходя из графика, имеет координаты
+$$
+ \begin{cases}
+   \theta=315
+   \\
+	r=12
+ \end{cases}
+\
+$$
+
+![траектории для случая 2 (Scilab)](image/02.png){ #fig:003 width=70% height=70% }
+
+![траектории для случая 2 (Julia)](image/2.png){ #fig:004 width=70% height=70% }
+
+
+Точка пересечения графиков - точка пересечения катера и лодки, исходя из графика, имеет координаты
+$$
+ \begin{cases}
+   \theta=315
+   \\
+	r=23
+ \end{cases}
+\
+$$
+
+Наблюдаем, что при погоне «по часовой стрелке» для достижения цели потребуется пройти меньшее расстояние.
+
+# Выводы
+
+Рассмотрели задачу о погоне. Провели анализ и вывод дифференциальных уравнений. Смоделировали ситуацию.
