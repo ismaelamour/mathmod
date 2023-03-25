@@ -1,0 +1,31 @@
+model lr7
+parameter Real a = 0.125;
+parameter Real b = 0.00002;
+parameter Real N = 648;
+Real n(start=12);
+
+equation
+  der(n) = (a+b*n)*(N-n);
+end lr7;
+
+
+model lr7
+parameter Real a = 0.000095;
+parameter Real b = 0.92;
+parameter Real N = 648;
+Real n(start=12);
+
+equation
+  der(n) = (a+b*n)*(N-n);
+end lr7;
+
+
+model lr7
+parameter Real a = 0.1;
+parameter Real b = 0.9;
+parameter Real N = 648;
+Real n(start=12);
+
+equation
+  der(n) = (a*sin(10*time)+b*time*n)*(N-n);
+end lr7;
